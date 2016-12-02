@@ -34,10 +34,6 @@ default installlabel install menu label ^Install Ubuntu Server kernel /install/v
 file=/cdrom/preseed/ubuntu-server.seed \ vga=788 initrd=/install/initrd.gz -- \ console=ttyS0,115200n8
 quiet –
 ```
-Die Zeile append ..., die hier nur der Lesbarkeit halber umgebrochen ist, enthält die Kernel-
-Kommandozeile mit der Einstellung console=ttyS0,115200n8, damit der Kernel Ausgaben an die Konsole
-zur seriellen Schnittstelle umleitet.
-
 The row with the append statement was wordwraped to be more readable. 
 With this setting you change the Kernel settings, so it does show the Kernel output on the serial console.
 
@@ -79,11 +75,6 @@ Flow Control : XON / XOFF
 
 Installation process !
 ======================
-
-## How to correctly plug in the APU
-
-Verkabelung am PC über ein serielles Kabel an den APU an und starte putty. Der USB-Stick kommt an
-einen USB-Port und das Ethernet-Kabel an den Anschluss neben der seriellen Konsole.
  
 ## Correct Order:
  
