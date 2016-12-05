@@ -110,7 +110,7 @@ apt-get install easy-rsa
 
 ```
 
-###dnsmasq###
+### dnsmasq
 ```bash
 /var/run/dnsmasq/resolv.conf 
 ```
@@ -122,7 +122,7 @@ If a new DNS gets created over the interface, it will be automaticly added to th
 touch /etc/gateway/current/hosts.conf
 echo 'addn-hosts=/etc/gateway/current/hosts.conf' >> /etc/dnsmasq.conf
 ```
-###isc-dhcp-server###
+### isc-dhcp-server
 
 ```bash
 DHCP-Server-Lease-File
@@ -148,7 +148,7 @@ service isc-dhcp-server start
 Open
 ```
 
-###openvpn###
+### openvpn
 
 Use the recommended settings here. 
 
@@ -161,11 +161,11 @@ chmod -R 770 /etc/gateway/openvpn/easy-rsa
 #./01_server.sh
 #challenge Password: XXXXXXX
 ```
-###ntp###
+### ntp
 
 You don't need to change anything here this package is just there to keep sure the time is set correctly.
 
-###shorewall###
+### shorewall
 
 You should always start shorewell on startup to keep sure all of your files are safe.
 
@@ -175,7 +175,7 @@ echo -e 'description "shorewall firewall startup"\n\nstart on runlevel [2345]\ns
 [!2345]\n\nexec /sbin/shorewall restart' > /etc/init/shorewall$
 ```
 
-###easy-rsa###
+### easy-rsa
 
 The easy-rsa package is just to lock the front-door, this will prevent people to find your VPN-Server.
 Also it will implement a pass-key you should use.
