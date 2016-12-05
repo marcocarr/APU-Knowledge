@@ -34,10 +34,6 @@ default installlabel install menu label ^Install Ubuntu Server kernel /install/v
 file=/cdrom/preseed/ubuntu-server.seed \ vga=788 initrd=/install/initrd.gz -- \ console=ttyS0,115200n8
 quiet –
 ```
-Die Zeile append ..., die hier nur der Lesbarkeit halber umgebrochen ist, enthält die Kernel-
-Kommandozeile mit der Einstellung console=ttyS0,115200n8, damit der Kernel Ausgaben an die Konsole
-zur seriellen Schnittstelle umleitet.
-
 The row with the append statement was wordwraped to be more readable. 
 With this setting you change the Kernel settings, so it does show the Kernel output on the serial console.
 
@@ -77,13 +73,8 @@ Data bits : 8
 Stop bits : 1
 Flow Control : XON / XOFF
 
-Installation process
-====================
-
-## How to correctly plug in the APU
-
-Verkabelung am PC über ein serielles Kabel an den APU an und starte putty. Der USB-Stick kommt an
-einen USB-Port und das Ethernet-Kabel an den Anschluss neben der seriellen Konsole.
+Installation process !
+======================
  
 ## Correct Order:
  
@@ -118,28 +109,8 @@ apt-get install shorewall
 apt-get install easy-rsa
 
 ```
-### Network settings
-You also need to set up some minor Network changes to correctly set-up all the packages.
 
-```bash
-#eth0 = p4p1
-
-touch /etc/gateway/current/inferfaces.conf
-echo 'source /etc/gateway/current/interfaces.conf' >> /etc/network/interfaces
-echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
-echo 'net.ipv6.conf.all.disable_ipv6=1' >> /etc/sysctl.conf
-```
-You also need to check what kind of interface you are using (eth0 or p4p1).
-
-### SSH
-If you want to use "AuthorizedKeysFile" you need to execute the following statements.
-```bash
-# edit /etc/ssh/sshd_config 
-# activate AuthorizedKeysFile     %h/.ssh/authorized_keys
-# restart SSH
-```
-
-### dnsmasq
+###dnsmasq###
 ```bash
 /var/run/dnsmasq/resolv.conf 
 ```
@@ -151,11 +122,12 @@ If a new DNS gets created over the interface, it will be automaticly added to th
 touch /etc/gateway/current/hosts.conf
 echo 'addn-hosts=/etc/gateway/current/hosts.conf' >> /etc/dnsmasq.conf
 ```
-### isc-dhcp-server
+###isc-dhcp-server###
 
 ```bash
 DHCP-Server-Lease-File
 Fix -> http://wiki.freifunk-flensburg.de/wiki/Workaround:DHCP-Server-Lease-File
+Als erstes den DHCP-Server abschalten mit:
 service isc-dhcp-server stop
 chown -R dhcpd:dhcpd /var/lib/dhcp
 nano /etc/init/isc-dhcp-server.conf
@@ -176,7 +148,7 @@ service isc-dhcp-server start
 Open
 ```
 
-### openvpn
+###openvpn###
 
 Use the recommended settings here. 
 
@@ -187,13 +159,13 @@ chown -R root:maintenance /etc/gateway/openvpn/easy-rsa
 chmod -R 770 /etc/gateway/openvpn/easy-rsa
 #cd /etc/gateway/openvpn/easy-rsa/
 #./01_server.sh
-#challenge Password: #Yr3nJNb[7
+#challenge Password: XXXXXXX
 ```
-### ntp
+###ntp###
 
 You don't need to change anything here this package is just there to keep sure the time is set correctly.
 
-### shorewall
+###shorewall###
 
 You should always start shorewell on startup to keep sure all of your files are safe.
 
@@ -203,7 +175,7 @@ echo -e 'description "shorewall firewall startup"\n\nstart on runlevel [2345]\ns
 [!2345]\n\nexec /sbin/shorewall restart' > /etc/init/shorewall$
 ```
 
-### easy-rsa
+###easy-rsa###
 
 The easy-rsa package is just to lock the front-door, this will prevent people to find your VPN-Server.
 Also it will implement a pass-key you should use.
