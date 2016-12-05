@@ -96,7 +96,7 @@ BootLoader always install in on the 16GB SSD Disk (/dev/sdb/).
 To be able to do so you need to use the Guided Disk usage by using the Entire disk and selecting there the
 SBD one.
 
-### Packeges and Settings
+### Packages and Settings
 
 Excecute everything as ```bash SUDO ```.
 
@@ -159,7 +159,7 @@ chown -R root:maintenance /etc/gateway/openvpn/easy-rsa
 chmod -R 770 /etc/gateway/openvpn/easy-rsa
 #cd /etc/gateway/openvpn/easy-rsa/
 #./01_server.sh
-#challenge Password: #Yr3nJNb[7
+#challenge Password: XXXXXXX
 ```
 ###ntp###
 
