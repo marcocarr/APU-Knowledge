@@ -119,7 +119,42 @@ apt-get install easy-rsa
 
 ```
 
-###dnsmasq###
+###networking
+To set up the basic network use the following:
+
+```bash
+touch /etc/gateway/current/inferfaces.conf
+echo 'source /etc/gateway/current/interfaces.conf' >> /etc/network/interfaces
+# Deactivate the primary network interface setting for IPv4 and IPv6
+echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+echo 'net.ipv6.conf.all.disable_ipv6=1' >> /etc/sysctl.conf
+```
+
+A basic setup for APU interfaces can be:
+
+```bash
+auto eth0
+iface eth0 inet dhcp
+
+auto eth1
+iface eth1 inet static
+  address 192.168.100.1
+  netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+  address 192.168.101.1
+  netmask 255.255.255.0
+```
+
+*Be aware. For oder Linux Distributions (Ubuntu 14.04 LTS) the Interfaces will be named p4p1...*
+
+```bash
+touch /etc/gateway/current/hosts.conf
+echo 'addn-hosts=/etc/gateway/current/hosts.conf' >> /etc/dnsmasq.conf
+```
+
+###dnsmasq
 ```bash
 /var/run/dnsmasq/resolv.conf 
 ```
@@ -131,7 +166,7 @@ If a new DNS gets created over the interface, it will be automaticly added to th
 touch /etc/gateway/current/hosts.conf
 echo 'addn-hosts=/etc/gateway/current/hosts.conf' >> /etc/dnsmasq.conf
 ```
-###isc-dhcp-server###
+###isc-dhcp-server
 
 ```bash
 DHCP-Server-Lease-File
@@ -157,7 +192,7 @@ service isc-dhcp-server start
 Open
 ```
 
-###openvpn###
+###openvpn
 
 Use the recommended settings here. 
 
@@ -170,11 +205,11 @@ chmod -R 770 /etc/gateway/openvpn/easy-rsa
 #./01_server.sh
 #challenge Password: #Yr3nJNb[7
 ```
-###ntp###
+###ntp
 
 You don't need to change anything here this package is just there to keep sure the time is set correctly.
 
-###shorewall###
+###shorewall
 
 You should always start shorewell on startup to keep sure all of your files are safe.
 
@@ -184,7 +219,7 @@ echo -e 'description "shorewall firewall startup"\n\nstart on runlevel [2345]\ns
 [!2345]\n\nexec /sbin/shorewall restart' > /etc/init/shorewall$
 ```
 
-###easy-rsa###
+###easy-rsa
 
 The easy-rsa package is just to lock the front-door, this will prevent people to find your VPN-Server.
 Also it will implement a pass-key you should use.
