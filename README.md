@@ -98,7 +98,7 @@ SBD one.
 
 ### Packages and Settings
 
-Excecute everything as ```bash SUDO ```.
+Excecute everything as ```SUDO ```.
 
 ```bash
 apt-get install dnsmasq
@@ -116,7 +116,11 @@ To set up the basic network use the following:
 ```bash
 touch /etc/gateway/current/inferfaces.conf
 echo 'source /etc/gateway/current/interfaces.conf' >> /etc/network/interfaces
-# Deactivate the primary network interface setting for IPv4 and IPv6
+```
+
+*Deactivate the primary network interface setting for IPv4 and IPv6*
+
+```bash
 echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
 echo 'net.ipv6.conf.all.disable_ipv6=1' >> /etc/sysctl.conf
 ```
@@ -129,20 +133,44 @@ iface eth0 inet dhcp
 
 auto eth1
 iface eth1 inet static
-  address 192.168.100.1
-  netmask 255.255.255.0
+  address 192.168.XXX.1
+  netmask 255.255.255.255
 
 auto eth2
 iface eth2 inet static
-  address 192.168.101.1
-  netmask 255.255.255.0
+  address 192.168.YYY.1
+  netmask 255.255.255.255
 ```
 
-*Be aware. For oder Linux Distributions (Ubuntu 14.04 LTS) the Interfaces will be named p4p1...*
+*Be aware. For oder Linux Distributions (Ubuntu 14.04 LTS) the Interfaces will be named **p4p1**...*
+
+Now set up scripts for enviorments and permisssions in a common folder
 
 ```bash
-touch /etc/gateway/current/hosts.conf
-echo 'addn-hosts=/etc/gateway/current/hosts.conf' >> /etc/dnsmasq.conf
+touch /etc/gateway/common/env.sh
+echo '#!/bin/bash'
+echo 'export GATEWAY_HOME=/etc/gateway' >> /etc/gateway/common/env.sh
+echo 'export GATEWAY_SSH_PORT=22' >> /etc/gateway/common/env.sh
+touch /etc/gateway/common/permissions.sh
+echo '#!/bin/bash' >> /etc/gateway/common/permissions.sh
+echo 'MYDIR=$(dirname -- $0)' >> /etc/gateway/common/permissions.sh
+echo 'source $MYDIR/env.sh' >> /etc/gateway/common/permissions.sh
+echo 'chown -R root:maintenance $GATEWAY_HOME' >> /etc/gateway/common/permissions.sh
+echo 'chmod -R 770 $GATEWAY_HOME' >> /etc/gateway/common/permissions.sh
+```
+
+Now set permissions for the executable files in the common folder (required only once)
+
+```bash
+sudo chown -R root:maintenance /etc/gateway/
+sudo chmod -R 770 /etc/gateway/
+```
+
+Now run the permissions.sh as ```SUDO``` to set the permissions for the entire gateway folder and files when needed
+
+```bash
+cd /etc/gateway/common/
+sudo ./permissions.sh
 ```
 
 ### dnsmasq
