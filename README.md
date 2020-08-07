@@ -246,10 +246,9 @@ Also it will implement a pass-key you should use.
 Conclusion 
 ==========
 
-You will find all of the Script-files ready to copy it into the right directory.
+You will find all of the Script-files ready to copy in their right directory.
 
-Everything was tested on Ubuntu 16.04.01 LTS and Windows Machines.
-
+Everything was tested on Ubuntu 16.04.01 LTS.
 ## Contributing
 
 1. Fork it
